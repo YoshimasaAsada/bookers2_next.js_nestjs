@@ -1,0 +1,43 @@
+version: "3.8"
+
+services:
+  api:
+    build:
+      context: ./api
+      dockerfile: Dockerfile
+    volumes:
+      - ./api/bookers2-api:/app
+    depends_on:
+      - db
+    ports:
+      - "3000:3000"
+      - "5555:5555"
+    networks:
+      - app-network
+
+  front:
+    build:
+      context: ./front
+      dockerfile: Dockerfile
+    volumes:
+      - ./front/bookers2-front:/app
+    ports:
+      - "4000:3000"
+    networks:
+      - app-network
+
+  db:
+    image: postgres:15.3
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_USER: test_user
+      POSTGRES_PASSWORD: test_pw
+      POSTGRES_DB: test_db
+    restart: always
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
