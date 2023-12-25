@@ -9,3 +9,28 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model User {
+  id Int @id @default(autoincrement())
+  // 自動でIDが連番で振られていく
+  createdAt DateTime @default(now()) @map("created_at")
+  // 今の時間 @map("created_at"): DBのカラム名を変更
+  updatedAt DateTime @updatedAt @map("updated_at")
+  email String @unique
+  // 一意制持たせる
+  hashedPassword String @map("hashed_password")
+  introduction String?
+  books Book[]
+}
+
+model Book {
+  id Int @id @default(autoincrement())
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+  title String
+  body String
+  userId Int
+  // このカラムにユーザーのidが追加される。下はアソシエーション組んでる
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  // 参照したいモデル、@relationでリレーション貼る、fields: [自身のどのカラムか],references: [参照先のどのカラムを参照するか], onDelete: Cascade＝＞railsでいう dependent destroy的なやつ
+}
