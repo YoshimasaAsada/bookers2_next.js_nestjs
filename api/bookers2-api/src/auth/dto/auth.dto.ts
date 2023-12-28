@@ -10,4 +10,6 @@ export class AuthDto {
   @IsNotEmpty()
   @MinLength(6)
   password: string;
+
+  name: string;
 }

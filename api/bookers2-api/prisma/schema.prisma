@@ -20,6 +20,7 @@ model User {
   // 一意制持たせる
   hashedPassword String @map("hashed_password")
   introduction String?
+  name String
   books Book[]
 }
 
