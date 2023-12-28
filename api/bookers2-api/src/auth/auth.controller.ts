@@ -4,12 +4,13 @@ import {
   HttpCode,
   HttpStatus,
   Post,
+  Req,
   Res,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { AuthDto } from './dto/auth.dto';
 import { Msg } from './interface/auth.interface';
-import { Response } from 'express';
+import { Request, Response } from 'express';
 
 @Controller('auth')
 export class AuthController {
@@ -39,6 +40,20 @@ export class AuthController {
       path: '/',
     });
     // cookieの名前をaccess_token、jwtトークンはloginでとったものを元にcookieを作成
+    return {
+      message: 'ok',
+    };
+  }
+
+  @HttpCode(HttpStatus.OK)
+  @Post('logout')
+  logOut(@Req() req: Request, @Res({ passthrough: true }) res: Response): Msg {
+    res.cookie('access_token', '', {
+      httpOnly: true,
+      secure: false,
+      sameSite: 'none',
+      path: '/',
+    });
     return {
       message: 'ok',
     };
