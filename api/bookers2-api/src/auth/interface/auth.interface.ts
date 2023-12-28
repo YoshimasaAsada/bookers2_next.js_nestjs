@@ -1,6 +1,6 @@
-// export interface Msg {
-//   mesage: string;
-// }
+export interface Msg {
+  message: string;
+}
 
 // export interface Csrf {
 //   csrfToken
