@@ -5,3 +5,7 @@ export interface Msg {
 // export interface Csrf {
 //   csrfToken
 // }
+
+export interface Jwt {
+  accessToken: string;
+}

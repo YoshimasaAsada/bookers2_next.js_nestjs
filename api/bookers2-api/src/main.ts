@@ -1,6 +1,7 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
+import * as cookiePaser from 'cookie-parser';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -15,6 +16,8 @@ async function bootstrap() {
     // 認証情報（クッキーやHTTP認証など）を許可するためのオプション
     origin: ['http://localhost:4000/'],
   });
+
+  app.use(cookiePaser());
 
   await app.listen(3000);
 }
