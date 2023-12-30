@@ -1,9 +1,18 @@
-import { Body, Controller, Get, Patch, Req, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Patch,
+  Post,
+  Req,
+  UseGuards,
+} from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { UserService } from './user.service';
 import { Request } from 'express';
 import { User } from '@prisma/client';
 import { UpdateUserDto } from './dto/update-user.dto';
+
 
 /* ユーザー情報更新 */
 // JWTのプロテクションをかける
