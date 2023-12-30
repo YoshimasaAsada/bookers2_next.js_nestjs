@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { Book } from '@prisma/client';
 import { CreateBookDto } from './dto/create-book.dto';
+import { UpdateBookDto } from './dto/update-book.dto';
 
 @Injectable()
 export class BookService {
@@ -42,6 +43,18 @@ export class BookService {
     const book = await this.prisma.book.create({
       data: {
         userId,
+        ...dto,
+      },
+    });
+    return book;
+  }
+
+  async updateBook(bookId: number, dto: UpdateBookDto): Promise<Book> {
+    const book = await this.prisma.book.update({
+      where: {
+        id: bookId,
+      },
+      data: {
         ...dto,
       },
     });

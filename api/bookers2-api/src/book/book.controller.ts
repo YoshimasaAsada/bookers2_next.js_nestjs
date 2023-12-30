@@ -4,6 +4,7 @@ import {
   Get,
   Param,
   ParseIntPipe,
+  Patch,
   Post,
   Req,
   UseGuards,
@@ -13,6 +14,7 @@ import { BookService } from './book.service';
 import { CreateBookDto } from './dto/create-book.dto';
 import { AuthGuard } from '@nestjs/passport';
 import { Book } from '@prisma/client';
+import { UpdateBookDto } from './dto/update-book.dto';
 
 @UseGuards(AuthGuard('jwt'))
 @Controller('book')
@@ -37,5 +39,12 @@ export class BookController {
     return this.bookService.getBook(bookId);
   }
 
-  
+  @Patch(':id')
+  updateBook(
+    @Req() req: Request,
+    @Body() dto: UpdateBookDto,
+    @Param('id', ParseIntPipe) bookId: number,
+  ): Promise<Book> {
+    return this.bookService.updateBook(bookId, dto);
+  }
 }
