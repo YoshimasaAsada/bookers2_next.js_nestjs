@@ -49,6 +49,7 @@ export class BookService {
     return book;
   }
 
+  /* 本のアップデート機能 */
   async updateBook(bookId: number, dto: UpdateBookDto): Promise<Book> {
     const book = await this.prisma.book.update({
       where: {
