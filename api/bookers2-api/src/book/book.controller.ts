@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Param,
   ParseIntPipe,
@@ -46,5 +47,13 @@ export class BookController {
     @Param('id', ParseIntPipe) bookId: number,
   ): Promise<Book> {
     return this.bookService.updateBook(bookId, dto);
+  }
+
+  @Delete(':id')
+  deleteBook(
+    @Req() req: Request,
+    @Param('id', ParseIntPipe) bookId: number,
+  ): Promise<void> {
+    return this.bookService.deleteBook(bookId, req.user.id);
   }
 }
