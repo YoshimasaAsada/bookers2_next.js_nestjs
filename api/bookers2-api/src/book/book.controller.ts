@@ -1,4 +1,13 @@
-import { Body, Controller, Get, Post, Req, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  ParseIntPipe,
+  Post,
+  Req,
+  UseGuards,
+} from '@nestjs/common';
 import { Request } from 'express';
 import { BookService } from './book.service';
 import { CreateBookDto } from './dto/create-book.dto';
@@ -19,4 +28,14 @@ export class BookController {
   createBook(@Req() req: Request, @Body() dto: CreateBookDto) {
     return this.bookService.createBook(req.user.id, dto);
   }
+
+  @Get(':id')
+  getBook(
+    @Req() req: Request,
+    @Param('id', ParseIntPipe) bookId: number,
+  ): Promise<Book> {
+    return this.bookService.getBook(bookId);
+  }
+
+  
 }

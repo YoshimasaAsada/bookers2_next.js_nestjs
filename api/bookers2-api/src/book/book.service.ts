@@ -7,6 +7,7 @@ import { CreateBookDto } from './dto/create-book.dto';
 export class BookService {
   constructor(private readonly prisma: PrismaService) {}
 
+  /* 全ての本の情報を取得 */
   getAllBooks(): Promise<Book[]> {
     return this.prisma.book.findMany({
       orderBy: {
@@ -15,6 +16,7 @@ export class BookService {
     });
   }
 
+  /* ログインしている本の情報を取得 */
   getLoginUserBooks(userId: number): Promise<Book[]> {
     return this.prisma.book.findMany({
       where: {
@@ -26,6 +28,16 @@ export class BookService {
     });
   }
 
+  /* IDヒットした本の情報の取得 */
+  getBook(bookId: number): Promise<Book> {
+    return this.prisma.book.findUnique({
+      where: {
+        id: bookId,
+      },
+    });
+  }
+
+  /* 本の新規登録 */
   async createBook(userId: number, dto: CreateBookDto) {
     const book = await this.prisma.book.create({
       data: {
