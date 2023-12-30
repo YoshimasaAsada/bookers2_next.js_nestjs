@@ -56,4 +56,12 @@ export class BookController {
   ): Promise<void> {
     return this.bookService.deleteBook(bookId, req.user.id);
   }
+
+  @Get('edit/:id')
+  editBook(
+    @Req() req: Request,
+    @Param('id', ParseIntPipe) bookId: number,
+  ): Promise<Book> {
+    return this.bookService.getBook(bookId);
+  }
 }

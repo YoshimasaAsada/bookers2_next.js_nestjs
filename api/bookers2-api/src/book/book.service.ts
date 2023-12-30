@@ -62,6 +62,7 @@ export class BookService {
     return book;
   }
 
+  /* 本の削除機能 */
   async deleteBook(bookId: number, userId: number): Promise<void> {
     // なんでvoid??
     const book = await this.prisma.book.delete({
