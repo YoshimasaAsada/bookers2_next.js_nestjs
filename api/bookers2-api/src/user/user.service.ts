@@ -23,4 +23,21 @@ export class UserService {
     delete user.hashedPassword;
     return user;
   }
+
+  /* 全ユーザーの取得 */
+  getAllUser(): Promise<User[]> {
+    return this.prisma.user.findMany({
+      orderBy: {
+        createdAt: 'desc',
+      },
+    });
+  }
+
+  getUserById(userId: number): Promise<User>{
+    return this.prisma.user.findUnique({
+      where: {
+        id: userId
+      }
+    })
+  }
 }

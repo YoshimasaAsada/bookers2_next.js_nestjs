@@ -2,6 +2,8 @@ import {
   Body,
   Controller,
   Get,
+  Param,
+  ParseIntPipe,
   Patch,
   Post,
   Req,
@@ -13,7 +15,6 @@ import { Request } from 'express';
 import { User } from '@prisma/client';
 import { UpdateUserDto } from './dto/update-user.dto';
 
-
 /* ユーザー情報更新 */
 // JWTのプロテクションをかける
 @UseGuards(AuthGuard('jwt'))
@@ -21,7 +22,7 @@ import { UpdateUserDto } from './dto/update-user.dto';
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
-  @Get()
+  @Get('my_page')
   getLoginUser(@Req() req: Request): Omit<User, 'hashedPassword'> {
     return req.user;
   }
@@ -32,5 +33,26 @@ export class UserController {
     @Body() dto: UpdateUserDto,
   ): Promise<Omit<User, 'hashedPassword'>> {
     return this.userService.updateUser(req.user.id, dto);
+  }
+
+  @Get()
+  getAllUser(@Req() req: Request): Promise<User[]> {
+    return this.userService.getAllUser();
+  }
+
+  @Get(':id')
+  getUserById(
+    @Req() req: Request,
+    @Param('id', ParseIntPipe) userId: number,
+  ): Promise<User> {
+    return this.userService.getUserById(userId);
+  }
+
+  @Get('edit/:id')
+  getEditUserById(
+    @Req() req: Request,
+    @Param('id', ParseIntPipe) userId: number,
+  ): Promise<User> {
+    return this.userService.getUserById(userId);
   }
 }
