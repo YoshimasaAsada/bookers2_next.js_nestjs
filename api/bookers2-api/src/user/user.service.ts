@@ -33,11 +33,12 @@ export class UserService {
     });
   }
 
-  getUserById(userId: number): Promise<User>{
+  /* idからユーザーを取得 */
+  getUserById(userId: number): Promise<User> {
     return this.prisma.user.findUnique({
       where: {
-        id: userId
-      }
-    })
+        id: userId,
+      },
+    });
   }
 }
