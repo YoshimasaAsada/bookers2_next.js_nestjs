@@ -30,7 +30,7 @@ model Book {
   updatedAt DateTime @updatedAt @map("updated_at")
   title String
   body String
-  userId Int
+  userId Int @map("user_id")
   // このカラムにユーザーのidが追加される。下はアソシエーション組んでる
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
   // 参照したいモデル、@relationでリレーション貼る、fields: [自身のどのカラムか],references: [参照先のどのカラムを参照するか], onDelete: Cascade＝＞railsでいう dependent destroy的なやつ
