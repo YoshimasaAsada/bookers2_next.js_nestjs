@@ -1,20 +1,27 @@
 import {
-  Body,
   Controller,
+  Post,
+  Body,
   HttpCode,
   HttpStatus,
-  Post,
-  Req,
   Res,
+  Req,
+  Get,
 } from '@nestjs/common';
+import { Request, Response } from 'express';
 import { AuthService } from './auth.service';
 import { AuthLogInDto, AuthSignUpDto } from './dto/auth.dto';
-import { Msg } from './interface/auth.interface';
-import { Request, Response } from 'express';
+import { Csrf, Msg } from './interface/auth.interface';
 
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
+
+  
+  @Get('csrf')
+  getCsrfToken(@Req() req: Request): Csrf {
+    return { csrfToken: req.csrfToken() };
+  }
 
   /* 新規登録機能 */
   @Post('signup')
