@@ -14,6 +14,8 @@
     "@mui/icons-material": "^5.15.2",
     "@mui/material": "^5.15.2",
     "@prisma/client": "^5.7.1",
+    "@tanstack/react-query": "^5.17.0",
+    "@tanstack/react-query-devtools": "^5.17.0",
     "axios": "^1.6.3",
     "init": "^0.1.2",
     "next": "14.0.4",
