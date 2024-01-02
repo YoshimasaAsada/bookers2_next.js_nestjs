@@ -1,5 +1,31 @@
+"use client";
+// これないとform上手くいかん
 import * as React from "react";
+import { useForm, SubmitHandler } from "react-hook-form";
+import { AuthForm } from "@/types/auth";
+import axios from "axios";
+import { useRouter } from "next/navigation";
+
 export default function Home() {
+  const router = useRouter();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<AuthForm>();
+
+  const onSubmit: SubmitHandler<AuthForm> = async (data) => {
+    console.log(data);
+    console.log(process.env.NEXT_PUBLIC_URL);
+    try {
+      // axios.defaults.withCredentials = true;この記述がlayoutのところに必要。
+      await axios.post(`http://localhost:3000/auth/login`, data);
+      // router.push("/dashboard");
+    } catch (error: any) {
+      console.log(error);
+    }
+  };
+
   return (
     <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
@@ -14,7 +40,7 @@ export default function Home() {
       </div>
 
       <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-        <form className="space-y-6" action="#" method="POST">
+        <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
           <div>
             <label
               htmlFor="email"
@@ -24,12 +50,13 @@ export default function Home() {
             </label>
             <div className="mt-2">
               <input
+                {...register("email")}
                 id="email"
                 name="email"
                 type="email"
                 autoComplete="email"
                 required
-                className="block w-full rounded-md border-0 py-1.5 text-white shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                className="block w-full rounded-md border-0 py-1.5 text-black shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
               />
             </div>
           </div>
@@ -53,6 +80,7 @@ export default function Home() {
             </div>
             <div className="mt-2">
               <input
+                {...register("password", { minLength: 6 })}
                 id="password"
                 name="password"
                 type="password"

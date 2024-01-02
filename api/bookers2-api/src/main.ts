@@ -14,7 +14,7 @@ async function bootstrap() {
   app.enableCors({
     credentials: true,
     // 認証情報（クッキーやHTTP認証など）を許可するためのオプション
-    origin: ['http://localhost:4000/'],
+    origin: ['http://localhost:4000'],
   });
 
   app.use(cookiePaser());

@@ -3,7 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import Link from "next/link";
 import { Header } from "@/components/Header";
-
+import axios from "axios";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -16,6 +16,8 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  axios.defaults.withCredentials = true;
+  // cookieのやりとりをバックとするなら必須。
   return (
     <html lang="en">
       <body className={inter.className}>

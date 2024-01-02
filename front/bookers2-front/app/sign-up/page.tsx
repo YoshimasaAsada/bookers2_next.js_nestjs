@@ -1,17 +1,30 @@
 "use client";
+// これないとform上手くいかん
 import * as React from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { AuthForm } from "@/types/auth";
+import axios from "axios";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
+  const router = useRouter();
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<AuthForm>();
 
-  const onSubmit: SubmitHandler<AuthForm> = (data) => {
+  const onSubmit: SubmitHandler<AuthForm> = async (data) => {
     console.log(data);
+    console.log(process.env.NEXT_PUBLIC_TODO_URL);
+    try {
+      // axios.defaults.withCredentials = true;この記述がlayoutのところに必要。
+      await axios.post(`http://localhost:3000/auth/signup`, data);
+      await axios.post(`http://localhost:3000/auth/login`, data);
+      // router.push("/dashboard");
+    } catch (error: any) {
+      console.log(error);
+    }
   };
 
   return (

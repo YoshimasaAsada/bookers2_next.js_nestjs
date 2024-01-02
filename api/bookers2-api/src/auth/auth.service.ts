@@ -1,5 +1,5 @@
 import { ForbiddenException, Injectable } from '@nestjs/common';
-import { AuthDto } from './dto/auth.dto';
+import { AuthSignUpDto, AuthLogInDto } from './dto/auth.dto';
 import * as bcrypt from 'bcrypt';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { Jwt, Msg } from './interface/auth.interface';
@@ -15,7 +15,7 @@ export class AuthService {
   ) {}
 
   /* ユーザーの新規登録機能 */
-  async signUp(dto: AuthDto): Promise<Msg> {
+  async signUp(dto: AuthSignUpDto): Promise<Msg> {
     const hashed = await bcrypt.hash(dto.password, 12);
     // 送られてきたパスワードのハッシュ化
     try {
@@ -40,7 +40,7 @@ export class AuthService {
   }
 
   /* ログイン機能 */
-  async logIn(dto: AuthDto) {
+  async logIn(dto: AuthLogInDto) {
     const user = await this.prisma.user.findUnique({
       where: {
         email: dto.email,

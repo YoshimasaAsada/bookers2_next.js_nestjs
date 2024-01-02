@@ -8,7 +8,7 @@ import {
   Res,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { AuthDto } from './dto/auth.dto';
+import { AuthLogInDto, AuthSignUpDto } from './dto/auth.dto';
 import { Msg } from './interface/auth.interface';
 import { Request, Response } from 'express';
 
@@ -18,7 +18,7 @@ export class AuthController {
 
   /* 新規登録機能 */
   @Post('signup')
-  signUp(@Body() dto: AuthDto): Promise<Msg> {
+  signUp(@Body() dto: AuthSignUpDto): Promise<Msg> {
     // クライアントから送られてきたリクエストボディのauthdtoの内容を受け取る
     return this.authService.signUp(dto);
   }
@@ -28,7 +28,7 @@ export class AuthController {
   @HttpCode(HttpStatus.OK)
   @Post('login')
   async logIn(
-    @Body() dto: AuthDto,
+    @Body() dto: AuthLogInDto,
     @Res({ passthrough: true }) res: Response,
   ): Promise<Msg> {
     const jwt = await this.authService.logIn(dto);
