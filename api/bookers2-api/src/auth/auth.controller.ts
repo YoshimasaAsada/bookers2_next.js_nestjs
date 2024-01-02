@@ -17,10 +17,10 @@ import { Csrf, Msg } from './interface/auth.interface';
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
-  
   @Get('csrf')
   getCsrfToken(@Req() req: Request): Csrf {
     return { csrfToken: req.csrfToken() };
+    // csrfToken()ないよ的なエラーが出たら型インストール必要
   }
 
   /* 新規登録機能 */
@@ -42,7 +42,8 @@ export class AuthController {
     // authのlogInでJWTトークンを取得
     res.cookie('access_token', jwt.accessToken, {
       httpOnly: true,
-      secure: false,
+      secure: true,
+      // frontからだとtrue,postmanからだとfalse出ないとだめ？
       sameSite: 'none',
       path: '/',
     });
@@ -57,7 +58,7 @@ export class AuthController {
   logOut(@Req() req: Request, @Res({ passthrough: true }) res: Response): Msg {
     res.cookie('access_token', '', {
       httpOnly: true,
-      secure: false,
+      secure: true,
       sameSite: 'none',
       path: '/',
     });

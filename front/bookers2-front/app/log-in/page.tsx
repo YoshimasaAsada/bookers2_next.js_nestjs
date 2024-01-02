@@ -15,8 +15,6 @@ export default function Home() {
   } = useForm<AuthForm>();
 
   const onSubmit: SubmitHandler<AuthForm> = async (data) => {
-    console.log(data);
-    console.log(process.env.NEXT_PUBLIC_URL);
     try {
       // axios.defaults.withCredentials = true;この記述がlayoutのところに必要。
       await axios.post(`http://localhost:3000/auth/login`, data);

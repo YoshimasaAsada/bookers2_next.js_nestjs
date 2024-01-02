@@ -22,14 +22,16 @@ async function bootstrap() {
     origin: ['http://localhost:4000'],
   });
 
+  /* cookieの解析 */
   app.use(cookieParser());
 
+  /* csrfを取得し設定 */
   app.use(
     csurf({
       cookie: {
         httpOnly: true,
         sameSite: 'none',
-        secure: false, // 本番環境ではtrueに設定（HTTPSが必要）
+        secure: true, // 本番環境ではtrueに設定（HTTPSが必要）
       },
       value: (req: Request) => {
         return req.header('csrf-token');
