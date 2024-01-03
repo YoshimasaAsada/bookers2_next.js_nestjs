@@ -18,7 +18,7 @@ export default function Home() {
     try {
       // axios.defaults.withCredentials = true;この記述がlayoutのところに必要。
       await axios.post(`http://localhost:3000/auth/login`, data);
-      // router.push("/dashboard");
+      router.push("/book");
     } catch (error: any) {
       console.log(error);
     }
