@@ -43,7 +43,7 @@ export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
       },
     });
     delete user.hashedPassword;
-    return { currentUser: user };
+    return user;
     // ここのユーザーはjwtを解析した結果のユーザーなので、
     // ログインしているユーザーのものが返ってくる
   }
