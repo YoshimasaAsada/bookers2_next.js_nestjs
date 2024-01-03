@@ -34,10 +34,9 @@ export class BookController {
       this.bookService.getAllBooks().then((result) => ({ allBooks: result })),
       req.user,
     ]);
-
     return {
       ...allBooks,
-      ...userById,
+      currentUser: req.user,
     };
   }
 
