@@ -14,7 +14,7 @@ import { Request } from 'express';
 import { BookService } from './book.service';
 import { CreateBookDto } from './dto/create-book.dto';
 import { AuthGuard } from '@nestjs/passport';
-import { Book } from '@prisma/client';
+import { Book, User } from '@prisma/client';
 import { UpdateBookDto } from './dto/update-book.dto';
 
 @UseGuards(AuthGuard('jwt'))
@@ -28,14 +28,25 @@ export class BookController {
   // }
   // ログインユーザーの情報もとってきたいから下のものに変更。最適かどうかは後で見る
 
+  // @Get()
+  // async getAllBooks(@Req() req: Request): Promise<any> {
+  //   const [allBooks, userById] = await Promise.all([
+  //     this.bookService.getAllBooks().then((result) => ({ allBooks: result })),
+  //     req.user,
+  //   ]);
+  //   return {
+  //     ...allBooks,
+  //     currentUser: req.user,
+  //   };
+  // }
+
   @Get()
-  async getAllBooks(@Req() req: Request): Promise<any> {
-    const [allBooks, userById] = await Promise.all([
-      this.bookService.getAllBooks().then((result) => ({ allBooks: result })),
-      req.user,
-    ]);
+  async getAllBooks(
+    @Req() req: Request,
+  ): Promise<{ allBooks: Book[]; currentUser: Omit<User, 'hashedPassword'> }> {
+    const allBooks = await this.bookService.getAllBooks();
     return {
-      ...allBooks,
+      allBooks,
       currentUser: req.user,
     };
   }
