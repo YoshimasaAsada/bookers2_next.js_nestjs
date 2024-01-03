@@ -42,27 +42,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        {isLoggedIn ? (
-          <>
-            <button
-              onClick={onClickLogout}
-              className="px-4 py-2 text-sm rounded-full font-bold text-white bg-indigo-600 transition-all ease-in-out duration-300 hover:bg-transparent hover:text-[indigo-600] ml-3"
-            >
-              Logout
-            </button>
-          </>
-        ) : (
-          <>
-            <button
-              onClick={onClickLogout}
-              className="px-4 py-2 text-sm rounded-full font-bold text-white bg-indigo-600 transition-all ease-in-out duration-300 hover:bg-transparent hover:text-[indigo-600] ml-3"
-            >
-              Logout
-            </button>
-            <Header />
-          </>
-        )}
-
+        <Header />
         {children}
       </body>
     </html>
