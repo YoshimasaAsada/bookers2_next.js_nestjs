@@ -23,24 +23,6 @@ import { UserService } from 'src/user/user.service';
 export class BookController {
   constructor(private readonly bookService: BookService) {}
 
-  // @Get()
-  // getAllBooks(@Req() req: Request): Promise<Book[]> {
-  //   return this.bookService.getAllBooks();
-  // }
-  // ログインユーザーの情報もとってきたいから下のものに変更。最適かどうかは後で見る
-
-  // @Get()
-  // async getAllBooks(@Req() req: Request): Promise<any> {
-  //   const [allBooks, userById] = await Promise.all([
-  //     this.bookService.getAllBooks().then((result) => ({ allBooks: result })),
-  //     req.user,
-  //   ]);
-  //   return {
-  //     ...allBooks,
-  //     currentUser: req.user,
-  //   };
-  // }
-
   @Get()
   async getAllBooks(
     @Req() req: Request,
