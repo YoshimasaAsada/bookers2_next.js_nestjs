@@ -12,8 +12,7 @@ export const Header = () => {
   return (
     <header className="shadow-md py-4 px-4 sm:px-10 bg-dark font-[sans-serif] min-h-[70px]">
       <div className="flex flex-wrap items-center justify-between gap-5 relative">
-
-          <img className="w-36" />
+        <img className="w-36" />
 
         <div className="flex lg:order-1 max-sm:ml-auto">
           <Link
@@ -42,7 +41,7 @@ export const Header = () => {
           <li className="max-lg:border-b max-lg:py-2 px-3 max-lg:rounded">
             <Link
               className="lg:hover:text-indigo-600 text-gray-500 block font-semibold text-[15px]"
-              href="book"
+              href="/book"
             >
               Books
             </Link>
@@ -50,7 +49,7 @@ export const Header = () => {
           <li className="max-lg:border-b max-lg:py-2 px-3 max-lg:rounded">
             <Link
               className="lg:hover:text-indigo-600 text-gray-500 block font-semibold text-[15px]"
-              href="user"
+              href="/user"
             >
               Users
             </Link>
