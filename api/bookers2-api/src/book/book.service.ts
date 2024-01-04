@@ -9,10 +9,24 @@ export class BookService {
   constructor(private readonly prisma: PrismaService) {}
 
   /* 全ての本の情報を取得 */
-  getAllBooks(): Promise<Book[]> {
+  getAllBooksWithUser(): Promise<Book[]> {
     return this.prisma.book.findMany({
       orderBy: {
         createdAt: 'desc',
+      },
+      include: {
+        user: true,
+      },
+    });
+  }
+
+  getBookByIdWithUser(bookId: number): Promise<Book> {
+    return this.prisma.book.findUnique({
+      where: {
+        id: bookId,
+      },
+      include: {
+        user: true,
       },
     });
   }

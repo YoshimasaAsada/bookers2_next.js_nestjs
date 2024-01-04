@@ -16,6 +16,7 @@ import { CreateBookDto } from './dto/create-book.dto';
 import { AuthGuard } from '@nestjs/passport';
 import { Book, User } from '@prisma/client';
 import { UpdateBookDto } from './dto/update-book.dto';
+import { UserService } from 'src/user/user.service';
 
 @UseGuards(AuthGuard('jwt'))
 @Controller('book')
@@ -44,7 +45,7 @@ export class BookController {
   async getAllBooks(
     @Req() req: Request,
   ): Promise<{ allBooks: Book[]; currentUser: Omit<User, 'hashedPassword'> }> {
-    const allBooks = await this.bookService.getAllBooks();
+    const allBooks = await this.bookService.getAllBooksWithUser();
     return {
       allBooks,
       currentUser: req.user,
@@ -61,7 +62,7 @@ export class BookController {
     @Req() req: Request,
     @Param('id', ParseIntPipe) bookId: number,
   ): Promise<Book> {
-    return this.bookService.getBook(bookId);
+    return this.bookService.getBookByIdWithUser(bookId);
   }
 
   @Patch(':id')
