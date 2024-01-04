@@ -35,17 +35,28 @@ export class UserController {
     return this.userService.updateUser(req.user.id, dto);
   }
 
+  // @Get()
+  // getAllUser(@Req() req: Request): Promise<User[]> {
+  //   return this.userService.getAllUser();
+  // }
+
   @Get()
-  getAllUser(@Req() req: Request): Promise<User[]> {
-    return this.userService.getAllUser();
+  async getAllUser(
+    @Req() req: Request,
+  ): Promise<{ allUsers: User[]; currentUser: Omit<User, 'hashedPassword'> }> {
+    const allUsers = await this.userService.getAllUser();
+    return {
+      allUsers,
+      currentUser: req.user,
+    };
   }
 
   @Get(':id')
-  getUserById(
+  async getUserById(
     @Req() req: Request,
     @Param('id', ParseIntPipe) userId: number,
   ): Promise<User> {
-    return this.userService.getUserById(userId);
+    return await this.userService.getUserByIdWithBooks(userId);
   }
 
   @Get('edit/:id')
