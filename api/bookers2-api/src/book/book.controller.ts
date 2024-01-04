@@ -64,7 +64,7 @@ export class BookController {
     return this.bookService.deleteBook(bookId, req.user.id);
   }
 
-  @Get('edit/:id')
+  @Get(':id/edit')
   editBook(
     @Req() req: Request,
     @Param('id', ParseIntPipe) bookId: number,
