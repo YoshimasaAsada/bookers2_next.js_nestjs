@@ -29,7 +29,7 @@ const page = () => {
     router.push("/book");
   };
 
-  const onSubmit: SubmitHandler<createBookForm> = async (data) => {
+  const onSubmit: SubmitHandler<CreateBookForm> = async (data) => {
     axios.post(`http://localhost:3000/book`, data);
     // setBooks((books) => [...books, data]);
     router.push("/book");

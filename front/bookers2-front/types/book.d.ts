@@ -1,4 +1,4 @@
-interface createBookForm {
+interface CreateBookForm {
   title: string;
   body: string;
 }
