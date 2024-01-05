@@ -5,10 +5,12 @@ import UserInfo from "@/components/UserInfo";
 import UserTable from "@/components/UserTable";
 import { Book, User } from "@prisma/client";
 import axios from "axios";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
+import { SubmitHandler } from "react-hook-form";
 
 const page = () => {
+  const router = useRouter();
   const params = useParams();
   const [user, setUser] = useState<User & { books: Book[] }>();
 
@@ -35,6 +37,17 @@ const page = () => {
       });
   }, []);
 
+  const onClickDelete = (id: number) => {
+    axios.delete(`${process.env.NEXT_PUBLIC_API_URL}/book/${id}`);
+    router.push("/book");
+  };
+
+  const onSubmit: SubmitHandler<createBookForm> = async (data) => {
+    axios.post(`http://localhost:3000/book`, data);
+    // setBooks((books) => [...books, data]);
+    router.push("/book");
+  };
+
   return (
     <div className="container mx-auto">
       <div className="grid grid-cols-10">
@@ -42,10 +55,12 @@ const page = () => {
           {/* <UserInfo currentUser={book?.user} /> */}
           {user && <UserInfo user={user} />}
           {/* useStateが非同期処理でうまくいかないのでこうしてる。たぶん最適じゃない */}
-          <CreateBookForm />
+          <CreateBookForm onSubmit={onSubmit} />
         </div>
         <div className="col-start-5 col-span-10">
-          {user?.books && <BookTable allBooks={user.books} />}
+          {user?.books && (
+            <BookTable allBooks={user.books} onClickDelete={onClickDelete} />
+          )}
           {/* これも最適じゃない気がする */}
         </div>
       </div>
