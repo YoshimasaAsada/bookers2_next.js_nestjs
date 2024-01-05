@@ -8,18 +8,18 @@ type createBookForm = {
   body: string;
 };
 
-const CreateBookForm = () => {
-  const router = useRouter();
+const CreateBookForm = (props: any) => {
+  // const router = useRouter();
 
   const { register, handleSubmit } = useForm<createBookForm>();
-  const onSubmit: SubmitHandler<createBookForm> = async (data) => {
-    axios.post(`http://localhost:3000/book`, data);
-    router.push("/book");
-  };
-  
+  // const onSubmit: SubmitHandler<createBookForm> = async (data) => {
+  //   axios.post(`http://localhost:3000/book`, data);
+  //   router.push("/book");
+  // };
+
   return (
     <>
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={handleSubmit(props.onSubmit)}>
         <div>
           <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
             title

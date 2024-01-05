@@ -3,16 +3,12 @@ import { Book, User } from "@prisma/client";
 import axios from "axios";
 import React, { useState } from "react";
 
-type Props = {
-  allBooks: any;
-};
+// type Props = {
+//   allBooks: Book[];
+//   onClickDelete: void;
+// };
 
-const BookTable = (props: Props) => {
-  console.log(props);
-  const onClickDelete = (id: number) => {
-    axios.delete(`${process.env.NEXT_PUBLIC_API_URL}/book/${id}`);
-  };
-
+const BookTable = (props: any) => {
   return (
     <>
       <div className="relative overflow-x-auto">
@@ -63,7 +59,7 @@ const BookTable = (props: Props) => {
                         style={{ color: "white" }}
                         // href={`/book/${book.id}/edit`}
                         type="button"
-                        onClick={() => onClickDelete(book.id)}
+                        onClick={() => props.onClickDelete(book.id)}
                         className="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"
                       >
                         Delete
