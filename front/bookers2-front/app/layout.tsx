@@ -6,6 +6,7 @@ import Link from "next/link";
 import { Header } from "@/components/Header";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 const inter = Inter({ subsets: ["latin"] });
 
 /* use client使うから消した */
@@ -33,18 +34,24 @@ export default function RootLayout({
     getCsrfToken();
   }, []);
 
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-  const onClickLogout = () => {
-    axios.post(`${process.env.NEXT_PUBLIC_API_URL}/auth/logout`);
-  };
+  /* tanstac使う時必要だった */
+  const queryClient = new QueryClient({
+    defaultOptions: {
+      queries: {
+        retry: false,
+        refetchOnWindowFocus: false,
+      },
+    },
+  });
 
   return (
-    <html lang="en">
-      <body className={inter.className}>
-        <Header />
-        {children}
-      </body>
-    </html>
+    <QueryClientProvider client={queryClient}>
+      <html lang="en">
+        <body className={inter.className}>
+          <Header />
+          {children}
+        </body>
+      </html>
+    </QueryClientProvider>
   );
 }
