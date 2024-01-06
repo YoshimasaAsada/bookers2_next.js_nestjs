@@ -3,6 +3,8 @@ import BookTable from "@/components/BookTable";
 import CreateBookForm from "@/components/CreateBookForm";
 import UserInfo from "@/components/UserInfo";
 import UserTable from "@/components/UserTable";
+import useCreateBook from "@/hooks/CreateBook";
+import useMutateBook from "@/hooks/useMutateBook";
 import { Book, User } from "@prisma/client";
 import axios from "axios";
 import { useParams, useRouter } from "next/navigation";
@@ -13,9 +15,12 @@ const page = () => {
   const router = useRouter();
   const params = useParams();
   const [user, setUser] = useState<User & { books: Book[] }>();
+  const onSubmit = useCreateBook();
+  const { createBookMutation } = useMutateBook();
 
   /* このコード多分修正必要
   user.booksが取れなかったからこれに修正したが、もうちょいいい書き方あるんじゃないかと思っている
+  でーたの返し方に問題あるか？？
   */
   useEffect(() => {
     axios
@@ -42,12 +47,6 @@ const page = () => {
     router.push("/book");
   };
 
-  const onSubmit: SubmitHandler<CreateBookForm> = async (data) => {
-    axios.post(`http://localhost:3000/book`, data);
-    // setBooks((books) => [...books, data]);
-    router.push("/book");
-  };
-
   return (
     <div className="container mx-auto">
       <div className="grid grid-cols-10">
@@ -55,7 +54,7 @@ const page = () => {
           {/* <UserInfo currentUser={book?.user} /> */}
           {user && <UserInfo user={user} />}
           {/* useStateが非同期処理でうまくいかないのでこうしてる。たぶん最適じゃない */}
-          <CreateBookForm onSubmit={onSubmit} />
+          <CreateBookForm onSubmit={createBookMutation.mutate} />
         </div>
         <div className="col-start-5 col-span-10">
           {user?.books && (
