@@ -2,45 +2,31 @@
 import BookTable from "@/components/BookTable";
 import CreateBookForm from "@/components/CreateBookForm";
 import UserInfo from "@/components/UserInfo";
-import { Book } from "@prisma/client";
-import axios from "axios";
-import { useRouter } from "next/navigation";
+import useMutateBook from "@/hooks/useMutateBook";
+import { useQueryBook } from "@/hooks/useQueryBook";
 import React, { useEffect, useState } from "react";
-import { SubmitHandler } from "react-hook-form";
 
 const page = () => {
-  const router = useRouter();
-  const [currentUser, setCurrentUser] = useState("");
-  const [books, setBooks] = useState<Book[]>([]);
+  const { createBookMutation, deleteBookMutation } = useMutateBook();
+  const { data, status } = useQueryBook();
+  const currentUser = data?.currentUser ?? {};
+  // data?.currentUserの?消すと死ぬ
+  const books = data?.allBooks ?? [];
 
-  useEffect(() => {
-    axios.get(`${process.env.NEXT_PUBLIC_API_URL}/book`).then((res) => {
-      setCurrentUser(res.data.currentUser);
-      setBooks(res.data.allBooks);
-    });
-  }, []);
-
-  const onClickDelete = (id: number) => {
-    axios.delete(`${process.env.NEXT_PUBLIC_API_URL}/book/${id}`);
-    setBooks(books.filter((book: Book) => book.id !== id));
-  };
-
-  const onSubmit: SubmitHandler<CreateBookForm> = async (data) => {
-    axios.post(`http://localhost:3000/book`, data);
-    // setBooks((books) => [...books, data]);
-    router.push("/book");
-  };
-
+  if (status === "loading") return <p>Loading...</p>;
   return (
     <>
       <div className="container mx-auto">
         <div className="grid grid-cols-10">
           <div className="col-start-1 col-span-3">
             <UserInfo user={currentUser} />
-            <CreateBookForm onSubmit={onSubmit} />
+            <CreateBookForm onSubmit={createBookMutation.mutate} />
           </div>
           <div className="col-start-5 col-span-10">
-            <BookTable allBooks={books} onClickDelete={onClickDelete} />
+            <BookTable
+              allBooks={books}
+              onClickDelete={deleteBookMutation.mutate}
+            />
           </div>
         </div>
       </div>
