@@ -3,19 +3,8 @@ import React from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useRouter } from "next/navigation";
 
-type createBookForm = {
-  title: string;
-  body: string;
-};
-
 const CreateBookForm = (props: any) => {
-  // const router = useRouter();
-
-  const { register, handleSubmit } = useForm<createBookForm>();
-  // const onSubmit: SubmitHandler<createBookForm> = async (data) => {
-  //   axios.post(`http://localhost:3000/book`, data);
-  //   router.push("/book");
-  // };
+  const { register, handleSubmit } = useForm<CreateBookForm>();
 
   return (
     <>
