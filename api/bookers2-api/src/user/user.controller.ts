@@ -22,17 +22,18 @@ import { UpdateUserDto } from './dto/update-user.dto';
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
-  @Get('my_page')
+  @Get('login-user')
   getLoginUser(@Req() req: Request): Omit<User, 'hashedPassword'> {
     return req.user;
   }
 
-  @Patch()
+  @Patch(':id')
   updateUser(
     @Req() req: Request,
     @Body() dto: UpdateUserDto,
+    @Param('id', ParseIntPipe) userId: number,
   ): Promise<Omit<User, 'hashedPassword'>> {
-    return this.userService.updateUser(req.user.id, dto);
+    return this.userService.updateUser(userId, dto);
   }
 
   // @Get()
