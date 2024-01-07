@@ -1,21 +1,25 @@
 "use client";
-import CreateBookForm from "@/components/CreateBookForm";
 import EditBookForm from "@/components/EditBookForm";
-import { Book } from "@prisma/client";
-import axios from "axios";
+import { useQueryBook } from "@/hooks/useQueryBook";
+import { CircularProgress } from "@mui/material";
 import { useParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
 const page = () => {
   const params = useParams();
-  const [book, setBook] = useState<Book>();
-  useEffect(() => {
-    axios
-      .get(`${process.env.NEXT_PUBLIC_API_URL}/book/${params.id}/edit`)
-      .then((res) => {
-        setBook(res.data);
-      });
-  }, []);
+  const { queryBookById } = useQueryBook();
+  const { data, status } = queryBookById(params.id);
+
+  const book = data ?? "";
+
+  if (status === "loading")
+    return (
+      <>
+        <div className="h-screen w-screen flex justify-center items-center">
+          <CircularProgress />
+        </div>
+      </>
+    );
 
   return (
     <>
