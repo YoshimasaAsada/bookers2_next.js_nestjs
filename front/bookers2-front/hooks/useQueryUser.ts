@@ -1,4 +1,3 @@
-import { Book } from "@prisma/client";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { useRouter } from "next/navigation";
@@ -6,6 +5,7 @@ import { useRouter } from "next/navigation";
 export const useQueryUser = () => {
   const router = useRouter();
 
+  /* 全ユーザーの取得 */
   const queryAllUsers = () => {
     const getAllUsers = async () => {
       try {
@@ -26,6 +26,7 @@ export const useQueryUser = () => {
     });
   };
 
+  /* showページ行った時のユーザー取得 */
   const queryUserById = (userId: any) => {
     const getUserById = async () => {
       try {
@@ -56,6 +57,7 @@ export const useQueryUser = () => {
     });
   };
 
+  /* ログインユーザーの取得 */
   const queryLoginUser = () => {
     const getLoginUser = async () => {
       try {
