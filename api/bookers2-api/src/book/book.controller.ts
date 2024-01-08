@@ -24,14 +24,8 @@ export class BookController {
   constructor(private readonly bookService: BookService) {}
 
   @Get()
-  async getAllBooks(
-    @Req() req: Request,
-  ): Promise<{ allBooks: Book[]; currentUser: Omit<User, 'hashedPassword'> }> {
-    const allBooks = await this.bookService.getAllBooksWithUser();
-    return {
-      allBooks,
-      currentUser: req.user,
-    };
+  async getAllBooks(@Req() req: Request): Promise<Book[]> {
+    return await this.bookService.getAllBooksWithUser();
   }
 
   @Post()
