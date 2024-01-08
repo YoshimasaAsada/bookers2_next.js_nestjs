@@ -5,9 +5,11 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { AuthForm } from "@/types/auth";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import { useQueryClient } from "@tanstack/react-query";
 
 export default function Home() {
   const router = useRouter();
+  const queryClient = useQueryClient();
   const {
     register,
     handleSubmit,
@@ -16,8 +18,8 @@ export default function Home() {
 
   const onSubmit: SubmitHandler<AuthForm> = async (data) => {
     try {
-      // axios.defaults.withCredentials = true;この記述がlayoutのところに必要。
       await axios.post(`http://localhost:3000/auth/login`, data);
+      queryClient.invalidateQueries(["login-user"]);
       router.push("/book");
     } catch (error: any) {
       console.log(error);
