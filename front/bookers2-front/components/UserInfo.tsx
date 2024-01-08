@@ -1,9 +1,7 @@
+import Link from "next/link";
 import React from "react";
-type Props = {
-  user: any;
-};
 
-const UserInfo = ({ user }: Props) => {
+const UserInfo = (props: any) => {
   return (
     <>
       <h1>User Info</h1>
@@ -16,7 +14,7 @@ const UserInfo = ({ user }: Props) => {
             >
               name
             </th>
-            <td className="px-6 py-4">{user.name}</td>
+            <td className="px-6 py-4">{props.user.name}</td>
           </tr>
           <tr className="border-b dark:border-gray-700">
             <th
@@ -25,7 +23,7 @@ const UserInfo = ({ user }: Props) => {
             >
               introduction
             </th>
-            <td className="px-6 py-4">{user.introduction}</td>
+            <td className="px-6 py-4">{props.user.introduction}</td>
           </tr>
           <tr className="border-b dark:border-gray-700">
             <th
@@ -34,10 +32,18 @@ const UserInfo = ({ user }: Props) => {
             >
               email
             </th>
-            <td className="px-6 py-4">{user.email}</td>
+            <td className="px-6 py-4">{props.user.email}</td>
           </tr>
         </tbody>
       </table>
+      {props.user.id === props.loginUser.id && (
+        <Link
+          className="mb-2 block w-full rounded border-2 border-primary px-6 pb-[6px] pt-2 text-xs font-medium uppercase leading-normal text-primary transition duration-150 ease-in-out hover:border-primary-600 hover:bg-neutral-500 hover:bg-opacity-10 hover:text-primary-600 focus:border-primary-600 focus:text-primary-600 focus:outline-none focus:ring-0 active:border-primary-700 active:text-primary-700 dark:hover:bg-neutral-100 dark:hover:bg-opacity-10 text-center"
+          href={`/user/${props.loginUser.id}/edit`}
+        >
+          プロフィール編集
+        </Link>
+      )}
     </>
   );
 };
