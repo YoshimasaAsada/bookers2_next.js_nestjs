@@ -1,14 +1,23 @@
-import axios from "axios";
+import useMutateBook from "@/hooks/useMutateBook";
 import React from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { useRouter } from "next/navigation";
 
-const CreateBookForm = (props: any) => {
-  const { register, handleSubmit } = useForm<CreateBookForm>();
+const CreateBookForm = () => {
+  const { register, handleSubmit, reset } = useForm<CreateBookForm>();
+  const { createBookMutation } = useMutateBook();
+
+  /* 投稿ロジックはコンポーネント内で書くみたい */
+  const onSubmit: SubmitHandler<CreateBookForm> = (data) => {
+    createBookMutation.mutate(data, {
+      onSuccess: () => {
+        reset();
+      },
+    });
+  };
 
   return (
     <>
-      <form onSubmit={handleSubmit(props.onSubmit)}>
+      <form onSubmit={handleSubmit(onSubmit)}>
         <div>
           <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
             title
