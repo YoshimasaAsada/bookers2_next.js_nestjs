@@ -2,11 +2,15 @@
 　　create, delete, updateの処理はここに書く
 */
 import axios from "axios";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
+import { useForm } from "react-hook-form";
+// import { useForm } from "react-hook-form";
 
 const useMutateBook = () => {
   const router = useRouter();
+  const queryClient = useQueryClient();
+  const { register, handleSubmit, reset } = useForm();
 
   /* 本の投稿機能動かす */
   const createBookMutation = useMutation(
@@ -18,7 +22,20 @@ const useMutateBook = () => {
       return res.data;
     },
     {
-      onSuccess: () => {
+      onSuccess: (res) => {
+        const previosBooks: any = queryClient.getQueryData(["books"]);
+        const previosLoginUser: any = queryClient.getQueryData(["login-user"]);
+        const createdBookWithUser = {
+          ...res,
+          user: previosLoginUser,
+        };
+
+        if (previosBooks) {
+          queryClient.setQueryData(
+            ["books"],
+            [createdBookWithUser, ...previosBooks]
+          );
+        }
         router.push("/book");
       },
       onError: (error: any) => {
@@ -33,7 +50,15 @@ const useMutateBook = () => {
       await axios.delete(`${process.env.NEXT_PUBLIC_API_URL}/book/${bookId}`);
     },
     {
-      onSuccess: () => {
+      onSuccess: (_, variables) => {
+        const previosBooks: any = queryClient.getQueryData(["books"]);
+        console.log(previosBooks);
+        if (previosBooks) {
+          queryClient.setQueryData(
+            ["books"],
+            previosBooks.filter((book: any) => book.id !== variables)
+          );
+        }
         router.push("/book");
       },
     }
