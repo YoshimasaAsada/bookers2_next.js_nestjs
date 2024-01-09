@@ -1,4 +1,6 @@
+import { Link } from "@mui/material";
 import { User } from "@prisma/client";
+
 import React from "react";
 
 type Props = {
@@ -24,7 +26,10 @@ const UserTable = (props: Props) => {
             {props.allUsers.map((user: User, index: number) => {
               return (
                 <tr className="border-b dark:border-gray-700" key={index}>
-                  <td className="px-6 py-4">{user.name}</td>
+                  <td className="px-6 py-4">
+                    <Link href={`/user/${user.id}`}>{user.name}</Link>
+                  </td>
+
                   <td className="px-6 py-4">{user.email}</td>
                 </tr>
               );
