@@ -8,11 +8,11 @@ import React from "react";
 
 const page = () => {
   const { queryAllUsers } = useQueryUser();
-  const { data: allUsers, isLoading: allUsersIsLoading } = queryAllUsers();
+  const { data: allUsers, status: allUsersStatus } = queryAllUsers();
   const { queryLoginUser } = useQueryUser();
-  const { data: loginUser, isLoading: loginUserIsLoading } = queryLoginUser();
+  const { data: loginUser, status: loginUserStatus } = queryLoginUser();
 
-  if (allUsersIsLoading || loginUserIsLoading)
+  if (allUsersStatus === "loading" || loginUserStatus === "loading")
     return (
       <>
         <div className="h-screen w-screen flex justify-center items-center">
