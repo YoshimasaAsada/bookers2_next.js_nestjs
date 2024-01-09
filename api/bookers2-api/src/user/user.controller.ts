@@ -36,20 +36,9 @@ export class UserController {
     return this.userService.updateUser(userId, dto);
   }
 
-  // @Get()
-  // getAllUser(@Req() req: Request): Promise<User[]> {
-  //   return this.userService.getAllUser();
-  // }
-
   @Get()
-  async getAllUser(
-    @Req() req: Request,
-  ): Promise<{ allUsers: User[]; currentUser: Omit<User, 'hashedPassword'> }> {
-    const allUsers = await this.userService.getAllUser();
-    return {
-      allUsers,
-      currentUser: req.user,
-    };
+  async getAllUser(@Req() req: Request): Promise<User[]> {
+    return await this.userService.getAllUser();
   }
 
   @Get(':id')
