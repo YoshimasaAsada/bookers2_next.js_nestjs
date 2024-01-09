@@ -10,7 +10,6 @@ export const useQueryUser = () => {
     const getAllUsers = async () => {
       try {
         const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/user`);
-        console.log(res);
         return res.data;
       } catch (error: any) {
         router.push("/log-in");
