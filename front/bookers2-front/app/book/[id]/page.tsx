@@ -17,7 +17,6 @@ import { SubmitHandler } from "react-hook-form";
 
 const page = () => {
   const params = useParams();
-  const { createBookMutation, deleteBookMutation } = useMutateBook();
   const { queryBookById } = useQueryBook();
   const { data, status } = queryBookById(params.id);
   const { queryLoginUser } = useQueryUser();
@@ -43,13 +42,7 @@ const page = () => {
             <CreateBookForm />
           </div>
           <div className="col-start-5 col-span-10">
-            {book && (
-              <BookTable
-                loginUser={loginUser}
-                allBooks={[book]}
-                onClickDelete={deleteBookMutation.mutate}
-              />
-            )}
+            {book && <BookTable loginUser={loginUser} allBooks={[book]} />}
           </div>
         </div>
       </div>
