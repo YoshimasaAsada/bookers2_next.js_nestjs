@@ -1,3 +1,4 @@
+import useMutateBook from "@/hooks/useMutateBook";
 import { useQueryUser } from "@/hooks/useQueryUser";
 import { Link } from "@mui/material";
 import { Book, User } from "@prisma/client";
@@ -10,6 +11,7 @@ import React, { useState } from "react";
 // };
 
 const BookTable = (props: any) => {
+  const { deleteBookMutation } = useMutateBook();
   return (
     <>
       <div className="relative overflow-x-auto">
@@ -59,9 +61,8 @@ const BookTable = (props: any) => {
                       <td className="px-6 py-4">
                         <Link
                           style={{ color: "white" }}
-                          // href={`/book/${book.id}/edit`}
                           type="button"
-                          onClick={() => props.onClickDelete(book.id)}
+                          onClick={() => deleteBookMutation.mutate(book.id)}
                           className="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"
                         >
                           Delete
