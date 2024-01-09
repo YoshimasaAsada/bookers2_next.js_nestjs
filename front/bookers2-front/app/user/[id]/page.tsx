@@ -2,65 +2,45 @@
 import BookTable from "@/components/BookTable";
 import CreateBookForm from "@/components/CreateBookForm";
 import UserInfo from "@/components/UserInfo";
-import UserTable from "@/components/UserTable";
-import useCreateBook from "@/hooks/CreateBook";
 import useMutateBook from "@/hooks/useMutateBook";
-import { Book, User } from "@prisma/client";
-import axios from "axios";
-import { useParams, useRouter } from "next/navigation";
-import React, { useEffect, useState } from "react";
-import { SubmitHandler } from "react-hook-form";
+import { useQueryUser } from "@/hooks/useQueryUser";
+import { CircularProgress } from "@mui/material";
+import { useParams } from "next/navigation";
+import React from "react";
 
 const page = () => {
-  const router = useRouter();
   const params = useParams();
-  const [user, setUser] = useState<User & { books: Book[] }>();
-  const onSubmit = useCreateBook();
-  const { createBookMutation } = useMutateBook();
+  const { createBookMutation, deleteBookMutation } = useMutateBook();
 
-  /* このコード多分修正必要
-  user.booksが取れなかったからこれに修正したが、もうちょいいい書き方あるんじゃないかと思っている
-  でーたの返し方に問題あるか？？
-  */
-  useEffect(() => {
-    axios
-      .get(`${process.env.NEXT_PUBLIC_API_URL}/user/${params.id}`)
-      .then((res) => {
-        // ユーザー情報とそのユーザーが持つ書籍情報を取得
-        const userData = res.data;
-        // 書籍情報にuserプロパティを追加
-        const booksWithUser = userData.books.map((book: Book) => {
-          return {
-            ...book,
-            user: {
-              ...userData,
-            },
-          };
-        });
-        // ユーザー情報とbooksWithUserをセット
-        setUser({ ...userData, books: booksWithUser });
-      });
-  }, []);
+  const { queryUserById } = useQueryUser();
+  const { data: user, status } = queryUserById(params.id);
 
-  const onClickDelete = (id: number) => {
-    axios.delete(`${process.env.NEXT_PUBLIC_API_URL}/book/${id}`);
-    router.push("/book");
-  };
+  const { queryLoginUser } = useQueryUser();
+  const { data: loginUserData, status: userstatus } = queryLoginUser();
 
+  const loginUser = loginUserData ?? "";
+
+  if (status === "loading")
+    return (
+      <>
+        <div className="h-screen w-screen flex justify-center items-center">
+          <CircularProgress />
+        </div>
+      </>
+    );
   return (
     <div className="container mx-auto">
       <div className="grid grid-cols-10">
         <div className="col-start-1 col-span-3">
-          {/* <UserInfo currentUser={book?.user} /> */}
-          {user && <UserInfo user={user} />}
-          {/* useStateが非同期処理でうまくいかないのでこうしてる。たぶん最適じゃない */}
-          <CreateBookForm onSubmit={createBookMutation.mutate} />
+          {loginUser && <UserInfo user={user} loginUser={loginUser} />}
+          <CreateBookForm />
         </div>
         <div className="col-start-5 col-span-10">
-          {user?.books && (
-            <BookTable allBooks={user.books} onClickDelete={onClickDelete} />
-          )}
-          {/* これも最適じゃない気がする */}
+          <BookTable
+            loginUser={loginUser}
+            allBooks={user.books}
+            onClickDelete={deleteBookMutation.mutate}
+          />
         </div>
       </div>
     </div>
