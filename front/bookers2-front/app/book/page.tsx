@@ -2,23 +2,18 @@
 import BookTable from "@/components/BookTable";
 import CreateBookForm from "@/components/CreateBookForm";
 import UserInfo from "@/components/UserInfo";
-import useMutateBook from "@/hooks/useMutateBook";
 import { useQueryBook } from "@/hooks/useQueryBook";
 import { useQueryUser } from "@/hooks/useQueryUser";
 import { CircularProgress } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import React from "react";
 
 const page = () => {
   const { queryAllBook } = useQueryBook();
-  const { data: booksData, status } = queryAllBook();
+  const { data: allBooks, status: allBooksStatus } = queryAllBook();
   const { queryLoginUser } = useQueryUser();
-  const { data: loginUserData, status: user } = queryLoginUser();
+  const { data: loginUser, status: loginUserStatus } = queryLoginUser();
 
-  // data?.currentUserの?消すと死ぬ
-  const books = booksData ?? [];
-  const loginUser = loginUserData ?? "";
-
-  if (status === "loading")
+  if (allBooksStatus === "loading" || loginUserStatus == "loading")
     return (
       <>
         <div className="h-screen w-screen flex justify-center items-center">
@@ -35,7 +30,7 @@ const page = () => {
             <CreateBookForm />
           </div>
           <div className="col-start-5 col-span-10">
-            <BookTable loginUser={loginUser} allBooks={books} />
+            <BookTable loginUser={loginUser} allBooks={allBooks} />
           </div>
         </div>
       </div>
