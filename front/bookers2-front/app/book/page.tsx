@@ -9,7 +9,6 @@ import { CircularProgress } from "@mui/material";
 import React, { useEffect, useState } from "react";
 
 const page = () => {
-  const { createBookMutation, deleteBookMutation } = useMutateBook();
   const { queryAllBook } = useQueryBook();
   const { data: booksData, status } = queryAllBook();
   const { queryLoginUser } = useQueryUser();
@@ -36,11 +35,7 @@ const page = () => {
             <CreateBookForm />
           </div>
           <div className="col-start-5 col-span-10">
-            <BookTable
-              loginUser={loginUser}
-              allBooks={books}
-              onClickDelete={deleteBookMutation.mutate}
-            />
+            <BookTable loginUser={loginUser} allBooks={books} />
           </div>
         </div>
       </div>
