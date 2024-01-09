@@ -2,7 +2,6 @@
 import BookTable from "@/components/BookTable";
 import CreateBookForm from "@/components/CreateBookForm";
 import UserInfo from "@/components/UserInfo";
-import useMutateBook from "@/hooks/useMutateBook";
 import { useQueryUser } from "@/hooks/useQueryUser";
 import { CircularProgress } from "@mui/material";
 import { useParams } from "next/navigation";
@@ -10,17 +9,13 @@ import React from "react";
 
 const page = () => {
   const params = useParams();
-  const { createBookMutation, deleteBookMutation } = useMutateBook();
-
   const { queryUserById } = useQueryUser();
-  const { data: user, status } = queryUserById(params.id);
+  const { data: userById, status: userByIdStatus } = queryUserById(params.id);
 
   const { queryLoginUser } = useQueryUser();
-  const { data: loginUserData, status: userstatus } = queryLoginUser();
+  const { data: loginUser, status: loginUserStatus } = queryLoginUser();
 
-  const loginUser = loginUserData ?? "";
-
-  if (status === "loading")
+  if (loginUserStatus === "loading" || userByIdStatus === "loading")
     return (
       <>
         <div className="h-screen w-screen flex justify-center items-center">
@@ -32,15 +27,11 @@ const page = () => {
     <div className="container mx-auto">
       <div className="grid grid-cols-10">
         <div className="col-start-1 col-span-3">
-          {loginUser && <UserInfo user={user} loginUser={loginUser} />}
+          <UserInfo user={userById} loginUser={loginUser} />
           <CreateBookForm />
         </div>
         <div className="col-start-5 col-span-10">
-          <BookTable
-            loginUser={loginUser}
-            allBooks={user.books}
-            onClickDelete={deleteBookMutation.mutate}
-          />
+          <BookTable loginUser={loginUser} allBooks={userById.books} />
         </div>
       </div>
     </div>
