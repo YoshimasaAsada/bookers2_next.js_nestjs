@@ -29,7 +29,7 @@ const page = () => {
             <CreateBookForm />
           </div>
           <div className="col-start-5 col-span-10">
-            <UserTable allUsers={allUsers} />
+            <UserTable users={allUsers} />
           </div>
         </div>
       </div>
