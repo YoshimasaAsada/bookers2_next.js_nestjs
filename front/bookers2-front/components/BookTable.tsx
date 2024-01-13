@@ -30,7 +30,7 @@ const BookTable = (props: any) => {
             </tr>
           </thead>
           <tbody className="">
-            {props.allBooks.map(
+            {props.books.map(
               (book: Book & { user: User }, index: number) => {
                 // なんかきもいから後で直す
                 if (props.loginUser.id === book.user.id)
