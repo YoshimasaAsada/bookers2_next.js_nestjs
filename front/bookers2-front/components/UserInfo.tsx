@@ -1,7 +1,11 @@
+import { User } from "@prisma/client";
 import Link from "next/link";
 import React from "react";
-
-const UserInfo = (props: any) => {
+type Props = {
+  user: User;
+  loginUser: User;
+};
+const UserInfo = (props: Props) => {
   return (
     <>
       <h1>User Info</h1>
