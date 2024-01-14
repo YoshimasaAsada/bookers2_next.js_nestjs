@@ -4,7 +4,7 @@ import "./globals.css";
 import axios from "axios";
 import { useEffect } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { Header } from "@/components/Hheader";
+import { Header } from "@/components/Header";
 // import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 const inter = Inter({ subsets: ["latin"] });
 
