@@ -23,13 +23,6 @@ const page = () => {
         </div>
       </>
     );
-
-  if (!bookById) {
-    return <div>Book not found.</div>;
-  }
-
-  
-  
   return (
     <>
       <div className="container mx-auto">
@@ -39,7 +32,7 @@ const page = () => {
             <CreateBookForm />
           </div>
           <div className="col-start-5 col-span-10">
-            <BookTable loginUser={loginUser} books={[bookById]} />
+            <BookTable loginUser={loginUser} allBooks={[bookById]} />
           </div>
         </div>
       </div>
