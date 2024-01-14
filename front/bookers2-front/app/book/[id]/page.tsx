@@ -1,21 +1,31 @@
+// rafce
 "use client";
 import BookTable from "@/components/BookTable";
 import CreateBookForm from "@/components/CreateBookForm";
 import UserInfo from "@/components/UserInfo";
+import useMutateBook from "@/hooks/useMutateBook";
 import { useQueryBook } from "@/hooks/useQueryBook";
 import { useQueryUser } from "@/hooks/useQueryUser";
 import { CircularProgress } from "@mui/material";
+import { Book, User } from "@prisma/client";
+import axios from "axios";
+import { stat } from "fs";
 import { useParams } from "next/navigation";
-import React from "react";
+
+import React, { useEffect, useState } from "react";
+import { SubmitHandler } from "react-hook-form";
 
 const page = () => {
   const params = useParams();
   const { queryBookById } = useQueryBook();
-  const { data: bookById, status: bookByIdStatus } = queryBookById(params.id);
+  const { data, status } = queryBookById(params.id);
   const { queryLoginUser } = useQueryUser();
-  const { data: loginUser, status: loginUserStatus } = queryLoginUser();
+  const { data: loginUserData, status: userstatus } = queryLoginUser();
 
-  if (loginUserStatus === "loading" || bookByIdStatus === "loading")
+  const loginUser = loginUserData ?? "";
+  const book = data ?? "";
+
+  if (status === "loading")
     return (
       <>
         <div className="h-screen w-screen flex justify-center items-center">
@@ -28,11 +38,11 @@ const page = () => {
       <div className="container mx-auto">
         <div className="grid grid-cols-10">
           <div className="col-start-1 col-span-3">
-            <UserInfo user={bookById.user} loginUser={loginUser} />
+            {book?.user && <UserInfo user={book.user} loginUser={loginUser} />}
             <CreateBookForm />
           </div>
           <div className="col-start-5 col-span-10">
-            <BookTable loginUser={loginUser} allBooks={[bookById]} />
+            {book && <BookTable loginUser={loginUser} allBooks={[book]} />}
           </div>
         </div>
       </div>
