@@ -4,7 +4,7 @@ import { User } from "@prisma/client";
 import React from "react";
 
 type Props = {
-  users: User[];
+  allUsers: User[];
 };
 
 const UserTable = (props: Props) => {
@@ -23,7 +23,7 @@ const UserTable = (props: Props) => {
             </tr>
           </thead>
           <tbody className="">
-            {props.users.map((user: User, index: number) => {
+            {props.allUsers.map((user: User, index: number) => {
               return (
                 <tr className="border-b dark:border-gray-700" key={index}>
                   <td className="px-6 py-4">
