@@ -5,11 +5,11 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 export const Header = () => {
+  const router = useRouter();
   const queryClient = useQueryClient();
   // ログイン時とそうでない時でヘッダーを分けるためにログインユーザーとってる
   const { queryLoginUser } = useQueryUser();
   const { data } = queryLoginUser();
-  const router = useRouter();
 
   const onClickLogout = async () => {
     // queryClient.removeQueries(["login-user"]);
