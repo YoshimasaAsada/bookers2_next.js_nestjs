@@ -30,7 +30,7 @@ const page = () => {
             <CreateBookForm />
           </div>
           <div className="col-start-5 col-span-10">
-            <BookTable loginUser={loginUser} books={allBooks} />
+            <BookTable loginUser={loginUser} allBooks={allBooks} />
           </div>
         </div>
       </div>
