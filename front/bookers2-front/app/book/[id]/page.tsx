@@ -4,7 +4,7 @@ import BookTable from "@/components/BookTable";
 import CreateBookForm from "@/components/CreateBookForm";
 import UserInfo from "@/components/UserInfo";
 import useMutateBook from "@/hooks/useMutateBook";
-import { useQueryBook } from "@/hooks/useQueryBook";
+import { useQueryBookById } from "@/hooks/useQueryBook";
 import { useQueryUser } from "@/hooks/useQueryUser";
 import { CircularProgress } from "@mui/material";
 import { Book, User } from "@prisma/client";
@@ -18,8 +18,7 @@ import { SubmitHandler } from "react-hook-form";
 const page = () => {
   const params = useParams();
   const { createBookMutation, deleteBookMutation } = useMutateBook();
-  const { queryBookById } = useQueryBook();
-  const { data, status } = queryBookById(params.id);
+  const { data, status } = useQueryBookById(params.id);
   const { queryLoginUser } = useQueryUser();
   const { data: loginUserData, status: userstatus } = queryLoginUser();
 

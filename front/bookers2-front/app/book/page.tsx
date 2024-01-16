@@ -2,18 +2,18 @@
 import BookTable from "@/components/BookTable";
 import CreateBookForm from "@/components/CreateBookForm";
 import UserInfo from "@/components/UserInfo";
-import { useQueryBook } from "@/hooks/useQueryBook";
+import { useQueryAllBook } from "@/hooks/useQueryBook";
 import { useQueryUser } from "@/hooks/useQueryUser";
 import { CircularProgress } from "@mui/material";
 import React from "react";
 
 const page = () => {
-  const { queryAllBook } = useQueryBook();
   const {
     data: allBooksData,
     status: allBooksStatus,
     isFetching: allBooksIsFetching,
-  } = queryAllBook();
+  } = useQueryAllBook();
+
   const { queryLoginUser } = useQueryUser();
   const {
     data: loginUserData,
