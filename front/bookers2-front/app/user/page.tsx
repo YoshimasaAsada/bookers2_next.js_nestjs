@@ -2,15 +2,13 @@
 import CreateBookForm from "@/components/CreateBookForm";
 import UserInfo from "@/components/UserInfo";
 import UserTable from "@/components/UserTable";
-import { useQueryUser } from "@/hooks/useQueryUser";
+import { useQueryAllUsers, useQueryLoginUser } from "@/hooks/useQueryUser";
 import { CircularProgress } from "@mui/material";
 import React from "react";
 
 const page = () => {
-  const { queryAllUsers } = useQueryUser();
-  const { data: allUsers, status: allUsersStatus } = queryAllUsers();
-  const { queryLoginUser } = useQueryUser();
-  const { data: loginUser, status: loginUserStatus } = queryLoginUser();
+  const { data: allUsers, status: allUsersStatus } = useQueryAllUsers();
+  const { data: loginUser, status: loginUserStatus } = useQueryLoginUser();
 
   if (allUsersStatus === "loading" || loginUserStatus === "loading")
     return (

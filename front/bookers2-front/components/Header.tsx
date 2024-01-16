@@ -1,4 +1,4 @@
-import { useQueryUser } from "@/hooks/useQueryUser";
+import { useQueryLoginUser } from "@/hooks/useQueryUser";
 import { useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import Link from "next/link";
@@ -8,8 +8,7 @@ export const Header = () => {
   const router = useRouter();
   const queryClient = useQueryClient();
   // ログイン時とそうでない時でヘッダーを分けるためにログインユーザーとってる
-  const { queryLoginUser } = useQueryUser();
-  const { data } = queryLoginUser();
+  const { data } = useQueryLoginUser();
 
   const onClickLogout = async () => {
     // queryClient.removeQueries(["login-user"]);

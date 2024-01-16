@@ -3,7 +3,7 @@ import BookTable from "@/components/BookTable";
 import CreateBookForm from "@/components/CreateBookForm";
 import UserInfo from "@/components/UserInfo";
 import { useQueryAllBook } from "@/hooks/useQueryBook";
-import { useQueryUser } from "@/hooks/useQueryUser";
+import { useQueryLoginUser } from "@/hooks/useQueryUser";
 import { CircularProgress } from "@mui/material";
 import React from "react";
 
@@ -14,12 +14,11 @@ const page = () => {
     isFetching: allBooksIsFetching,
   } = useQueryAllBook();
 
-  const { queryLoginUser } = useQueryUser();
   const {
     data: loginUserData,
     status: loginUserStatus,
     isFetching: loginUsersIsFetching,
-  } = queryLoginUser();
+  } = useQueryLoginUser();
 
   const allBooks = allBooksData ?? [];
   const loginUser = loginUserData ?? "";

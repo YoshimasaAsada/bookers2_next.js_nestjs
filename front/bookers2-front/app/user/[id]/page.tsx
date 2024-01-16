@@ -2,18 +2,19 @@
 import BookTable from "@/components/BookTable";
 import CreateBookForm from "@/components/CreateBookForm";
 import UserInfo from "@/components/UserInfo";
-import { useQueryUser } from "@/hooks/useQueryUser";
+import { useQueryLoginUser, useQueryUserById } from "@/hooks/useQueryUser";
+
 import { CircularProgress } from "@mui/material";
 import { useParams } from "next/navigation";
 import React from "react";
 
 const page = () => {
   const params = useParams();
-  const { queryUserById } = useQueryUser();
-  const { data: userById, status: userByIdStatus } = queryUserById(params.id);
+  const { data: userById, status: userByIdStatus } = useQueryUserById(
+    params.id
+  );
 
-  const { queryLoginUser } = useQueryUser();
-  const { data: loginUser, status: loginUserStatus } = queryLoginUser();
+  const { data: loginUser, status: loginUserStatus } = useQueryLoginUser();
 
   if (loginUserStatus === "loading" || userByIdStatus === "loading")
     return (

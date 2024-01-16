@@ -11,7 +11,9 @@ export const useQueryAllBook = () => {
       console.log(res);
       return res.data;
     } catch (error: any) {
+      console.log("test");
       router.push("log-in");
+      console.log("bbbbbb");
     }
   };
 

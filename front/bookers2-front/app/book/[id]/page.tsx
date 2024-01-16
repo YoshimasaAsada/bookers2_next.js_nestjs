@@ -5,7 +5,8 @@ import CreateBookForm from "@/components/CreateBookForm";
 import UserInfo from "@/components/UserInfo";
 import useMutateBook from "@/hooks/useMutateBook";
 import { useQueryBookById } from "@/hooks/useQueryBook";
-import { useQueryUser } from "@/hooks/useQueryUser";
+import { useQueryLoginUser } from "@/hooks/useQueryUser";
+
 import { CircularProgress } from "@mui/material";
 import { Book, User } from "@prisma/client";
 import axios from "axios";
@@ -19,8 +20,8 @@ const page = () => {
   const params = useParams();
   const { createBookMutation, deleteBookMutation } = useMutateBook();
   const { data, status } = useQueryBookById(params.id);
-  const { queryLoginUser } = useQueryUser();
-  const { data: loginUserData, status: userstatus } = queryLoginUser();
+
+  const { data: loginUserData, status: userstatus } = useQueryLoginUser();
 
   const loginUser = loginUserData ?? "";
   const book = data ?? "";
