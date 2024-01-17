@@ -9,27 +9,18 @@ import React from "react";
 
 const page = () => {
   const {
-    data: allBooksData,
+    data: allBooks,
     status: allBooksStatus,
     isFetching: allBooksIsFetching,
   } = useQueryAllBook();
 
   const {
-    data: loginUserData,
+    data: loginUser,
     status: loginUserStatus,
     isFetching: loginUsersIsFetching,
   } = useQueryLoginUser();
 
-  const allBooks = allBooksData ?? [];
-  const loginUser = loginUserData ?? "";
-
-  if (
-    allBooksStatus === "loading" ||
-    loginUserStatus == "loading" ||
-    allBooksIsFetching ||
-    loginUsersIsFetching
-  )
-    // data?.currentUserの?消すと死ぬ
+  if (allBooksStatus === "loading" || loginUserStatus == "loading")
     return (
       <>
         <div className="h-screen w-screen flex justify-center items-center">
