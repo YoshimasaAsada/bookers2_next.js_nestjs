@@ -13,9 +13,9 @@ export const Header = () => {
   const onClickLogout = async () => {
     // queryClient.removeQueries(["login-user"]);
     // これだと再読み込みが走らない
+    router.push("/log-in");
     await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/auth/logout`);
     queryClient.setQueryData(["login-user"], null); // ログインユーザーのキャッシュをリセット
-    router.push("/log-in");
     queryClient.invalidateQueries(["login-user"]); // キャッシュを無効化して再取得をトリガー
   };
 
