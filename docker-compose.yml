@@ -38,6 +38,19 @@ services:
     networks:
       - app-network
 
+  web:
+    image: nginx:1.21
+    ports:
+      - 80:80
+    volumes:
+      - ./nginx:/app
+      - ./nginx/nginx.develop.conf:/etc/nginx/nginx.conf
+    networks:
+      - app-network
+    depends_on:
+      - api
+      - front
+
 networks:
   app-network:
     driver: bridge
