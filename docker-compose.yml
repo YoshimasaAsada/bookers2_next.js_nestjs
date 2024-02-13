@@ -7,6 +7,8 @@ services:
       dockerfile: Dockerfile
     volumes:
       - ./api/bookers2-api:/app
+      - api_node_modules:/app/node_modules
+      #マウント先をapi_node_modulesにしてローカルと混同しないようにする
     depends_on:
       - db
     ports:
@@ -21,6 +23,8 @@ services:
       dockerfile: Dockerfile
     volumes:
       - ./front/bookers2-front:/app
+      # ローカルの../front/bookers2-frontをコンテナ内の/appにまうんと
+      - front_node_modules:/app/node_modules
     ports:
       - "4000:3000"
     networks:
@@ -35,6 +39,9 @@ services:
       POSTGRES_PASSWORD: test_pw
       POSTGRES_DB: test_db
     restart: always
+    volumes:
+      - bookers_db_store:/var/lib/postgresql/data
+      # DBを専用の場所にマウントさせる
     networks:
       - app-network
 
@@ -43,7 +50,6 @@ services:
     ports:
       - 80:80
     volumes:
-      - ./nginx:/app
       - ./nginx/nginx.develop.conf:/etc/nginx/nginx.conf
     networks:
       - app-network
@@ -54,3 +60,8 @@ services:
 networks:
   app-network:
     driver: bridge
+
+volumes:
+  front_node_modules:
+  api_node_modules:
+  bookers_db_store:
