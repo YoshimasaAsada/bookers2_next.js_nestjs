@@ -28,11 +28,15 @@ const page = () => {
     <div className="container mx-auto">
       <div className="grid grid-cols-10">
         <div className="col-start-1 col-span-3">
-          <UserInfo user={userById} loginUser={loginUser} />
+          {userById && loginUser && (
+            <UserInfo user={userById} loginUser={loginUser} />
+          )}
           <CreateBookForm />
         </div>
         <div className="col-start-5 col-span-10">
-          <BookTable loginUser={loginUser} allBooks={userById.books} />
+          {userById && loginUser && (
+            <BookTable loginUser={loginUser} allBooks={userById.books} />
+          )}
         </div>
       </div>
     </div>

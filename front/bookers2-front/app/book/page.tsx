@@ -33,11 +33,13 @@ const page = () => {
       <div className="container mx-auto">
         <div className="grid grid-cols-10">
           <div className="col-start-1 col-span-3">
-            <UserInfo user={loginUser} loginUser={loginUser} />
+            {loginUser && <UserInfo user={loginUser} loginUser={loginUser} />}
             <CreateBookForm />
           </div>
           <div className="col-start-5 col-span-10">
-            <BookTable loginUser={loginUser} allBooks={allBooks} />
+            {loginUser && allBooks && (
+              <BookTable loginUser={loginUser} allBooks={allBooks} />
+            )}
           </div>
         </div>
       </div>

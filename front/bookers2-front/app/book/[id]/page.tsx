@@ -1,30 +1,16 @@
-// rafce
 "use client";
 import BookTable from "@/components/BookTable";
 import CreateBookForm from "@/components/CreateBookForm";
 import UserInfo from "@/components/UserInfo";
-import useMutateBook from "@/hooks/useMutateBook";
 import { useQueryBookById } from "@/hooks/useQueryBook";
 import { useQueryLoginUser } from "@/hooks/useQueryUser";
-
 import { CircularProgress } from "@mui/material";
-import { Book, User } from "@prisma/client";
-import axios from "axios";
-import { stat } from "fs";
 import { useParams } from "next/navigation";
-
-import React, { useEffect, useState } from "react";
-import { SubmitHandler } from "react-hook-form";
 
 const page = () => {
   const params = useParams();
-  const { createBookMutation, deleteBookMutation } = useMutateBook();
-  const { data, status } = useQueryBookById(params.id);
-
-  const { data: loginUserData, status: userstatus } = useQueryLoginUser();
-
-  const loginUser = loginUserData ?? "";
-  const book = data ?? "";
+  const { data: book, status } = useQueryBookById(params.id);
+  const { data: loginUser, status: userstatus } = useQueryLoginUser();
 
   if (status === "loading")
     return (
@@ -34,21 +20,20 @@ const page = () => {
         </div>
       </>
     );
+
   return (
     <>
       <div className="container mx-auto">
         <div className="grid grid-cols-10">
           <div className="col-start-1 col-span-3">
-            {book?.user && <UserInfo user={book.user} loginUser={loginUser} />}
+            {book?.user && loginUser && (
+              <UserInfo user={book.user} loginUser={loginUser} />
+            )}
             <CreateBookForm />
           </div>
           <div className="col-start-5 col-span-10">
-            {book && (
-              <BookTable
-                loginUser={loginUser}
-                allBooks={[book]}
-                onClickDelete={deleteBookMutation.mutate}
-              />
+            {book && loginUser && (
+              <BookTable loginUser={loginUser} allBooks={[book]} />
             )}
           </div>
         </div>
