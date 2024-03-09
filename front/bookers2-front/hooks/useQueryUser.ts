@@ -60,8 +60,7 @@ export const useQueryLoginUser = () => {
     queryFn: getLoginUser,
     onError: (err: any) => {
       if (err.response.status === 401 || err.response.status === 403)
-        console.log("errorchatch");
-      router.push("/log-in");
+        router.push("/log-in");
     },
   });
 };
