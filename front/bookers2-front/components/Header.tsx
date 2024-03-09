@@ -11,12 +11,16 @@ export const Header = () => {
   const { data } = useQueryLoginUser();
 
   const onClickLogout = async () => {
-    // queryClient.removeQueries(["login-user"]);
-    // これだと再読み込みが走らない
-    router.push("/log-in");
-    await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/auth/logout`);
-    queryClient.setQueryData(["login-user"], null); // ログインユーザーのキャッシュをリセット
-    queryClient.invalidateQueries(["login-user"]); // キャッシュを無効化して再取得をトリガー
+    try {
+      await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/auth/logout`);
+      queryClient.setQueryData(["login-user"], null);
+      // ログインユーザーのキャッシュをリセット
+      queryClient.invalidateQueries(["login-user"]);
+      // キャッシュを無効化して再取得をトリガー
+      router.push("/log-in");
+    } catch (error) {
+      console.error("Logout failed:", error);
+    }
   };
 
   return (
@@ -28,26 +32,22 @@ export const Header = () => {
             <>
               <Link
                 className="px-4 py-2 lg:hover:text-indigo-600 text-gray-500 block font-semibold text-[15px]"
-                href={`/user/${data.id}`}
-              >
+                href={`/user/${data.id}`}>
                 Home
               </Link>
               <Link
                 className="px-4 py-2 lg:hover:text-indigo-600 text-gray-500 block font-semibold text-[15px]"
-                href="/user"
-              >
+                href="/user">
                 Users
               </Link>
               <Link
                 className="px-4 py-2 lg:hover:text-indigo-600 text-gray-500 block font-semibold text-[15px]"
-                href="/book"
-              >
+                href="/book">
                 Books
               </Link>
               <button
                 onClick={onClickLogout}
-                className="px-4 py-2 text-sm rounded-full font-bold text-white bg-indigo-600 transition-all ease-in-out duration-300 hover:bg-transparent hover:text-[indigo-600] ml-3"
-              >
+                className="px-4 py-2 text-sm rounded-full font-bold text-white bg-indigo-600 transition-all ease-in-out duration-300 hover:bg-transparent hover:text-[indigo-600] ml-3">
                 Logout
               </button>
             </>
@@ -55,20 +55,17 @@ export const Header = () => {
             <>
               <Link
                 className="px-4 py-2 lg:hover:text-indigo-600 text-gray-500 block font-semibold text-[15px]"
-                href="/"
-              >
+                href="/">
                 Top
               </Link>
               <Link
                 className="px-4 py-2 text-sm rounded-full font-bold text-white bg-indigo-600 transition-all ease-in-out duration-300 hover:bg-transparent hover:text-[indigo-600] ml-3"
-                href="log-in"
-              >
+                href="log-in">
                 Login
               </Link>
               <Link
                 className="px-4 py-2 text-sm rounded-full font-bold text-white bg-indigo-600 transition-all ease-in-out duration-300 hover:bg-transparent hover:text-[indigo-600] ml-3"
-                href="sign-up"
-              >
+                href="sign-up">
                 Sign up
               </Link>
             </>
